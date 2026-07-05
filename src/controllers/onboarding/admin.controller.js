@@ -18,9 +18,9 @@ const adminPanel = asyncHandler(async (req , res) => {
         };
     
         const adminTokenOwner = tokenOwnerId.id ;
-        const user = await User.findOne({adminTokenOwner});
-        console.log(user);
-        res.send(user);
+        const {isAdmin} = await User.findOne({_id : adminTokenOwner});
+
+        
     
 
     
