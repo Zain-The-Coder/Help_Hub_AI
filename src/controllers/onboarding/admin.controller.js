@@ -18,13 +18,30 @@ const adminPanel = asyncHandler(async (req , res) => {
         };
     
         const adminTokenOwner = tokenOwnerId.id ;
-        const {isAdmin} = await User.findOne({_id : adminTokenOwner});
+        const user = await User.findOne({_id : adminTokenOwner});
 
+        if(!user) {
+            return res.status(404).json({
+                status : 404 ,
+                message : "User not found !"
+            })
+        };
+
+        if(user.isAdmin == false) {
+            return res.status(403).json({
+                status : 403 ,
+                check : user.isAdmin ,
+                message : "You are not an admin!"
+            })
+        }
+        const data = await User.find();
         
+        res.status(200).json({
+            status : 200 ,
+            message : "User fetched successfully !" ,
+            users : data 
+        })
     
-
-    
-    const adminChecker = await User.findOne({})
 });
 
 

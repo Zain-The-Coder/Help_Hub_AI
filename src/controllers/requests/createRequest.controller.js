@@ -55,15 +55,25 @@ const createRequest = asyncHandler(async (req , res) => {
     });
 
     const receiverId = await User.findOne({role : "Can Help"}).select("-isAdmin");
+
     const type = "One Request for you has been posted . "
 
-    requestNotification(receiverId , type , title)
+    if(receiverId === null) {
+        res.status(201).json({
+            status : 201 ,
+            message : "Problem Request Created !" , 
+            problemDetails : request ,
+            notifier : "Notification is not send to anyone because no one in this platform currently solving the problem"
+        })
+    } else {
+        res.status(201).json({
+            status : 201 ,
+            message : "Problem Request Created !" , 
+            problemDetails : request
+        });
 
-    res.status(201).json({
-        status : 201 ,
-        message : "Problem Request Created !" , 
-        problemDetails : request
-    })
+        requestNotification(receiverId , type , title)
+    }
 });
 
 export default createRequest ;

@@ -22,7 +22,7 @@ const createRequestSchema = new mongoose.Schema({
     } ,
     categorey : {
         type : "String" , 
-        enum: ["Programming", "Mathematics", "Design", "Career Advice", "Other" , "Study"],
+        enum: ["Programming", "Mathematics", "Design", "Career Advice", "Other" , "Study" , "Business"],
         required : true
     } , 
     urgency: {

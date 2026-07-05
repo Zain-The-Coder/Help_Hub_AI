@@ -23,7 +23,7 @@ const userSchema = new mongoose.Schema({
         default : "Need Help"
     } ,
     isAdmin : {
-        type : String ,
+        type : Boolean ,
         default : false
     }
 } , {timestamps : true});
