@@ -18,9 +18,13 @@ const userSchema = new mongoose.Schema({
     role : {
         type : String ,
         enum : [
-            "Cam Help" , "Need Help" , "Both"
+            "Can Help" , "Need Help" , "Both"
         ] ,
         default : "Need Help"
+    } ,
+    isAdmin : {
+        type : String ,
+        default : false
     }
 } , {timestamps : true});
 

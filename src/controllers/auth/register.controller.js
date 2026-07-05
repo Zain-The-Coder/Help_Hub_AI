@@ -5,7 +5,7 @@ import config from '../../config/config.js';
 import JWT from 'jsonwebtoken';
 
 const registerUser = asyncHandler(async (req , res) => {
-    const {username , email , password} = req.body ;
+    const {username , email , password , role} = req.body ;
 
     if(!username || !email || !password) {
         return res.status(401).json({
@@ -23,7 +23,7 @@ const registerUser = asyncHandler(async (req , res) => {
 
     const isEmailExist = await User.findOne({
         email : email
-    })
+    }).select("-isAdmin");
 
     if(isEmailExist) {
         return res.status(403).json({
@@ -33,7 +33,7 @@ const registerUser = asyncHandler(async (req , res) => {
     };
 
     const newUser = await User.create({
-        username , email , password
+        username , email , password , role
     });
 
     const token = JWT.sign({

@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 
 const createRequestSchema = new mongoose.Schema({
+    requesterId : {
+        type : mongoose.Schema.Types.ObjectId ,
+        ref : "User" , 
+        required : true
+    } ,
     title : {
         type : String ,
         required : true ,
@@ -17,7 +22,7 @@ const createRequestSchema = new mongoose.Schema({
     } ,
     categorey : {
         type : "String" , 
-        enum: ["Programming", "Mathematics", "Design", "Career Advice", "Other"],
+        enum: ["Programming", "Mathematics", "Design", "Career Advice", "Other" , "Study"],
         required : true
     } , 
     urgency: {

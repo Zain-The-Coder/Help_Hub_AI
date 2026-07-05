@@ -32,7 +32,7 @@ const completeProfile = asyncHandler(async (req , res) => {
 
     const userId = decoded.id ;
 
-    const existingProfile = await profileModel.findOne(userId);
+    const existingProfile = await profileModel.findOne({userId}).select("-isAdmin");
 
     if(existingProfile) {
         return res.status(409).json({
