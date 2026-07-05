@@ -1,41 +1,48 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
-    username : {
-        type : String ,
-        required : [true , "username is required"] ,
-    } ,
-     email : {
-        type : String ,
-        required : [true , "email is required" ],
-        unique : [true , "email is already taken" ]
-    } ,
-    password : {
-        type : String , 
-        required : [true , "password is required"] ,
-    } ,
-    role : {
-        type : String ,
-        enum : [
-            "Can Help" , "Need Help" , "Both"
-        ] ,
-        default : "Need Help"
-    } ,
-    isAdmin : {
-        type : Boolean ,
-        default : false
+    username: {
+        type: String,
+        required: [true, "Username is required"],
+        trim: true
+    },
+    email: {
+        type: String,
+        required: [true, "Email is required"],
+        unique: true,
+        trim: true,
+        lowercase: true
+    },
+    password: {
+        type: String, 
+        required: [true, "Password is required"],
+    },
+    role: {
+        type: String,
+        enum: ["Can Help", "Need Help", "Both"],
+        default: "Need Help"
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
-} , {timestamps : true});
+}, { timestamps: true });
 
-userSchema.pre("save" , async function hashPassword () {
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
 
-    if(!this.isModified("password")) return ;
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(this.password , salt);
+userSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password);
+};
 
-    this.password = hashedPassword ;
-})
-
-export const User = mongoose.model("User" , userSchema);
+export const User = mongoose.model("User", userSchema);
