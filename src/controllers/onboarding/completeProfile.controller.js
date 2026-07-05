@@ -3,9 +3,14 @@ import asyncHandler from "../../utils/asyncHandler.js";
 import JWT from 'jsonwebtoken';
 import config from '../../config/config.js'
 import { profileModel } from "../../models/profile.model.js";
+import uploadFile from "../../services/imageKit.service.js";
 
 const completeProfile = asyncHandler(async (req , res) => {
     const {skills , interests , location} = req.body ;
+    const file = req.file ;
+
+    const result = await uploadFile(file.buffer);
+
     const token = req.cookies.token || req.headers.authorizations.split(" ")[1];
 
     if(!token) {
@@ -45,7 +50,8 @@ const completeProfile = asyncHandler(async (req , res) => {
         userId ,
         skills ,
         interests ,
-        location
+        location ,
+        image : result.url
     });
 
     res.status(201).json({

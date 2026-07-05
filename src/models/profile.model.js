@@ -19,6 +19,9 @@ const profileSchema = new mongoose.Schema({
         type : String , 
         required : true
     } ,
+    image : {
+        type : String ,
+    } ,
     trustScore : {
         type : Number ,
         default : 0 

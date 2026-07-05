@@ -11,12 +11,14 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@imagekit/nodejs": "^7.9.1",
     "bcrypt": "^6.0.0",
     "chalk": "^5.6.2",
     "cookie-parser": "^1.4.7",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.7.3"
+    "mongoose": "^9.7.3",
+    "multer": "^2.2.0"
   }
 }
